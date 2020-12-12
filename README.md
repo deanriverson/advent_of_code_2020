@@ -14,4 +14,4 @@ $ dart2native puzzle_1.dart -o bin/puzzle1
 $ bin/puzzle1
 ```
 
-You will need to create the `/bin` directory if it doesn't exist.  This directory is already in the .gitignore file.
+You will need to create the `bin` directory if it doesn't exist.  This directory is already in the .gitignore file.
