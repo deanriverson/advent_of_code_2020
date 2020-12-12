@@ -13,7 +13,7 @@ class PwSpec {
 }
 
 void main() async {
-  final answer = await readLines('puzzle_3_input.txt')
+  final answer = await readLines('puzzle_2_input.txt')
     .map(parseLine)
     .map(checkSpec)
     .fold(0, add);
@@ -29,7 +29,15 @@ PwSpec parseLine(String line) {
   return PwSpec(int.parse(xs[0]), int.parse(xs[1]), xs[2], xs[3]);
 }
 
-int checkSpec(PwSpec spec) => (spec.pw.split(spec.char).length - 1).isBetween(spec.min, spec.max) ? 1 : 0;
+int checkSpec(PwSpec spec) {
+  try {
+  final char1 = spec.pw[spec.min-1] == spec.char;
+  final char2 = spec.pw[spec.max-1] == spec.char;
+  return char1 ^ char2 ? 1 : 0;
+  } catch (e) {
+    print("Error ${e.toString()} for spec: $spec");
+  }
+}
 
 extension on int {
   bool isBetween(int min, int max) => this >= min && this <= max;

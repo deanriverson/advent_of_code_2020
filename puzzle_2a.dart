@@ -13,7 +13,7 @@ class PwSpec {
 }
 
 void main() async {
-  final answer = await readLines('puzzle_3_input.txt')
+  final answer = await readLines('puzzle_2_input.txt')
     .map(parseLine)
     .map(checkSpec)
     .fold(0, add);
