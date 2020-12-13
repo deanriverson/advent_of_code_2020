@@ -4,7 +4,7 @@ import 'package:rxdart/rxdart.dart';
 void main() async {
   const preambleSize = 25;
 
-  readLines('puzzle_5_input.txt')
+  readLines('puzzle_9_input.txt')
     .map(parseAsInt)
     .bufferCount(preambleSize + 1, 1)
     .map(processBuffer)
