@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'file_utils.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -24,13 +26,8 @@ void main() async {
 
 int processBuffer(List<int> buffer) {
   final sum = buffer.last;
-  final set = buffer.sublist(0, buffer.length - 1).toSet();
-
-  final result = set.any((el) {
-    final target = sum - el;
-    return target != el && set.contains(target);
-  });
-
+  final xs = buffer.sublist(0, buffer.length - 1).toSet();
+  final result = xs.any((el) => xs.contains(sum - el));
   return result ? sum : -sum;
 }
 
@@ -63,15 +60,4 @@ List<int> findSummingSequence(List<int> xs, targetSum) {
   throw StateError("no summation sequence found!");
 }
 
-/// Add together the smallest and largest number in the list
-int calculateAnswer(List<int> xs) {
-  int min = 1000000000;
-  int max = 0;
-
-  xs.forEach((x) { 
-    if (x < min) min = x;
-    if (x > max) max = x;
-  });
-
-  return min + max;
-}
+int calculateAnswer(List<int> xs) => xs.reduce(min) + xs.reduce(max);
