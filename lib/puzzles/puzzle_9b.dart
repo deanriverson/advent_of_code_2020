@@ -1,27 +1,26 @@
 import 'dart:math';
 
-import 'file_utils.dart';
 import 'package:rxdart/rxdart.dart';
 
-void main() async {
+import '../file_utils.dart';
+
+void puzzle_9b() async {
   const preambleSize = 25;
   const filePath = 'puzzle_9_input.txt';
-  
-  final preamble = await readLines(filePath)
-    .take(preambleSize)
-    .map(parseAsInt)
-    .toList();
+
+  final preamble = await readLines(filePath).take(preambleSize).map(parseAsInt).toList();
 
   readLines(filePath)
-    .map(parseAsInt)
-    .bufferCount(preambleSize + 1, 1)
-    .map(processBuffer)
-    .scan(scanner, preamble)
-    .where((xs) => xs.length == 1)
-    .listen((xs) => print("answer is ${xs[0]}"), 
-      onError: (e) => print("Finished: $e"),
-      cancelOnError: true
-    );
+      .map(parseAsInt)
+      .bufferCount(preambleSize + 1, 1)
+      .map(processBuffer)
+      .scan(scanner, preamble)
+      .where((xs) => xs.length == 1)
+      .listen(
+        (xs) => print('Puzzle 9b answer is ${xs[0]}'),
+        onError: (_) => null,
+        cancelOnError: true,
+      );
 }
 
 int processBuffer(List<int> buffer) {
@@ -32,7 +31,7 @@ int processBuffer(List<int> buffer) {
 }
 
 List<int> scanner(List<int> xs, y, _) {
-  if (xs.length == 1) throw "done";
+  if (xs.length == 1) throw 'done';
 
   if (y >= 0) {
     xs.add(y);
@@ -45,19 +44,19 @@ List<int> scanner(List<int> xs, y, _) {
 }
 
 List<int> findSummingSequence(List<int> xs, targetSum) {
-  for (int i = 0; i<xs.length; ++i) {
-    int sum = 0;
+  for (var i = 0; i < xs.length; ++i) {
+    var sum = 0;
     final sublist = xs.sublist(i);
 
-    for (int j = 0; j<sublist.length; ++j) {
+    for (var j = 0; j < sublist.length; ++j) {
       sum += sublist[j];
       if (sum == targetSum) {
-        return sublist.sublist(0, j+1);
+        return sublist.sublist(0, j + 1);
       }
       if (sum > targetSum) break;
     }
   }
-  throw StateError("no summation sequence found!");
+  throw StateError('no summation sequence found!');
 }
 
 int calculateAnswer(List<int> xs) => xs.reduce(min) + xs.reduce(max);

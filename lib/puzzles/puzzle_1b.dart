@@ -1,11 +1,10 @@
-import 'dart:convert';
-import 'dart:io';
 
-void main() async {
-  final file = File('puzzle_1_input.txt');
-  final line$ = file.openRead().transform(utf8.decoder).transform(LineSplitter()).map((numStr) => int.parse(numStr));
+import '../file_utils.dart';
 
-  final numSet = await line$.fold(Set<int>(), setReducer);
+void puzzle_1b() async {
+  final line$ = readLines('puzzle_1_input.txt').map((numStr) => int.parse(numStr));
+
+  final numSet = await line$.fold(<int>{}, setReducer);
 
   numSet.firstWhere((first) {
     final setMinus = Set.of(numSet);
@@ -14,7 +13,7 @@ void main() async {
     final second = setMinus.firstWhere(createTargetFinder(numSet, first), orElse: () => null);
 
     if (second != null) {
-      print("The answer is ${first * second * (2020 - first - second)}");
+      print('Puzzle 1b answer is: ${first * second * (2020 - first - second)}');
       return true;
     }
 

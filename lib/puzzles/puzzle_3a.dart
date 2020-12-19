@@ -1,9 +1,9 @@
-import 'file_utils.dart';
+import '../file_utils.dart';
 
-void main() async {
+void puzzle_3a() async {
   final lines = await readLines('puzzle_3_input.txt').toList();
   final answer = traverseMap(lines, 3, 1);
-  print('answer is $answer');
+  print('Puzzle 3a answer is: $answer');
 }
 
 int traverseMap(List<String> terrainList, int right, int down) {
@@ -13,13 +13,13 @@ int traverseMap(List<String> terrainList, int right, int down) {
   final span = lineLen * down + right;
   final terrain = terrainList.join();
 
-  int loc = 0;
-  int trees = 0;
-  int lineIdx = 0;
+  var loc = 0;
+  var trees = 0;
+  var lineIdx = 0;
 
   while (loc < terrain.length) {
     trees += isTreeAtLoc(terrain, loc) ? 1 : 0;
-    
+
     final nextLineIdx = (lineIdx + right) % lineLen;
     loc += didOverflow(lineIdx, nextLineIdx) ? right : span;
     lineIdx = nextLineIdx;

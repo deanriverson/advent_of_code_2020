@@ -1,4 +1,4 @@
-import 'file_utils.dart';
+import '../file_utils.dart';
 
 class PwSpec {
   final int min;
@@ -9,22 +9,18 @@ class PwSpec {
   PwSpec(this.min, this.max, this.char, this.pw);
 
   @override
-  String toString() => "PwSpec($min, $max, $char, $pw)";
+  String toString() => 'PwSpec($min, $max, $char, $pw)';
 }
 
-void main() async {
-  final answer = await readLines('puzzle_2_input.txt')
-    .map(parseLine)
-    .map(checkSpec)
-    .fold(0, add);
-
-  print("answer is $answer");
+void puzzle_2a() async {
+  final answer = await readLines('puzzle_2_input.txt').map(parseLine).map(checkSpec).fold(0, add);
+  print('Puzzle 2a answer is: $answer');
 }
 
-RegExp _regExp = new RegExp(r"(\d+)-(\d+) ([a-zA-Z]): (\w+)");
+RegExp _regExp = RegExp(r'(\d+)-(\d+) ([a-zA-Z]): (\w+)');
 
 PwSpec parseLine(String line) {
-  RegExpMatch match = _regExp.firstMatch(line);
+  var match = _regExp.firstMatch(line);
   final xs = match.groups([1, 2, 3, 4]);
   return PwSpec(int.parse(xs[0]), int.parse(xs[1]), xs[2], xs[3]);
 }

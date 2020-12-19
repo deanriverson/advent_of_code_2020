@@ -10,8 +10,8 @@ $ dart run puzzle_1.dart
 or they can be compiled natively
 
 ```bash
-$ dart2native puzzle_1.dart -o bin/puzzle1
-$ bin/puzzle1
+$ dart compile exe bin/aoc.dart -o build/aoc
+$ build/aoc
 ```
 
 You will need to create the `bin` directory if it doesn't exist.  This directory is already in the .gitignore file.
