@@ -55,7 +55,7 @@ List<String> _validateResults(ArgResults results, String usage) {
     return daysCompleted.keys.map((i) => i.toString()).toList();
   }
 
-  return [];
+  return results['day'];
 }
 
 void _printUsage(String argUsage) {
