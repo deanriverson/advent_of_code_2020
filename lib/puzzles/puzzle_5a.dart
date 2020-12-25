@@ -1,6 +1,10 @@
 import 'dart:math';
 
+import 'package:aoc/fn_utils.dart';
+
 import '../file_utils.dart';
+
+const maxId = 127 * 8 + 7;
 
 void puzzle_5a() async {
   final answer = await readLines('puzzle_5_input.txt')
@@ -10,6 +14,26 @@ void puzzle_5a() async {
       .reduce(max);
 
   print('Answer to 5a is $answer');
+}
+
+void puzzle_5b() async {
+  final allSeats = await readLines('puzzle_5_input.txt')
+      .map(splitString)
+      .map(stringsToInts)
+      .map(toId)
+      .fold(<int>{}, addToSet);
+
+  var answer = 0;
+  for (var i = 0; i < maxId; ++i) {
+    if (!allSeats.contains(i) &&
+        allSeats.contains(i - 1) &&
+        allSeats.contains(i + 1)) {
+      answer = i;
+      break;
+    }
+  }
+
+  print('Answer to 5b is $answer');
 }
 
 List<String> splitString(String str) => [str.substring(0, 7), str.substring(7)];
