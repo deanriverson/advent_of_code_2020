@@ -1,5 +1,7 @@
 import 'package:aoc/aoc.dart';
 import 'package:args/args.dart';
+import 'package:petitparser/parser.dart';
+import 'package:petitparser/petitparser.dart';
 
 List<String> parseArgs(List<String> args) {
   if (args.isEmpty) return [];
@@ -62,4 +64,19 @@ void _printUsage(String argUsage) {
   print('Run Advent of Code puzzle solutions\n');
   print('Usage: aoc -d <puzzle_name>');
   print(argUsage);
+}
+
+final dayParser = digit() & (char('a') | char('b')).star().map(dayMapper);
+
+int dayMapper(value) => value.isEmpty
+    ? null
+    : value[0] == 'a'
+        ? 0
+        : 1;
+
+Result<List<dynamic>> parseDayPair(String input) {
+  final result = dayParser.parse(input);
+  print(result.isSuccess);
+  print(result.value);
+  return result;
 }
