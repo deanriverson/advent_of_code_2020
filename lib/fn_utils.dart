@@ -18,3 +18,8 @@ Set<T> addToSet<T>(Set<T> s, T val) {
   s.add(val);
   return s;
 }
+
+T debug<T>(T a) {
+  print('debug: $a');
+  return a;
+}
