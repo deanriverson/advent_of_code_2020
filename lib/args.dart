@@ -1,9 +1,10 @@
 import 'package:aoc/aoc.dart';
+import 'package:aoc/fn_utils.dart';
 import 'package:args/args.dart';
 import 'package:petitparser/parser.dart';
 import 'package:petitparser/petitparser.dart';
 
-List<String> parseArgs(List<String> args) {
+List<List<int>> parseArgs(List<String> args) {
   if (args.isEmpty) return [];
 
   final parser = _createParser();
@@ -11,9 +12,10 @@ List<String> parseArgs(List<String> args) {
   try {
     final results = parser.parse(args);
     return _validateResults(results, parser.usage);
-  } catch (_) {
+  } catch (e) {
+    print('Error: $e');
     _printUsage(parser.usage);
-    return null;
+    return [];
   }
 }
 
@@ -47,17 +49,19 @@ ArgParser _createParser() {
   return parser;
 }
 
-List<String> _validateResults(ArgResults results, String usage) {
+List<List<int>> _validateResults(ArgResults results, String usage) {
   if (results['help']) {
     _printUsage(usage);
-    return null;
+    return [];
   }
 
   if (results['all']) {
-    return daysCompleted.keys.map((i) => i.toString()).toList();
+    return daysCompleted.keys.map((i) => [i]).toList();
   }
 
-  return results['day'];
+  var result = results['day']
+      .map((d) => List<int>.from(parseDayPair(d).value.where(isNotNull)));
+  return List<List<int>>.from(result);
 }
 
 void _printUsage(String argUsage) {
@@ -66,17 +70,13 @@ void _printUsage(String argUsage) {
   print(argUsage);
 }
 
-final dayParser = digit() & (char('a') | char('b')).star().map(dayMapper);
+final dayParser =
+    digit().map(int.tryParse) & anyOf('ab').optional().map(dayMapper);
 
-int dayMapper(value) => value.isEmpty
+int dayMapper(value) => value == null
     ? null
     : value[0] == 'a'
         ? 0
         : 1;
 
-Result<List<dynamic>> parseDayPair(String input) {
-  final result = dayParser.parse(input);
-  print(result.isSuccess);
-  print(result.value);
-  return result;
-}
+Result<List<dynamic>> parseDayPair(String input) => dayParser.parse(input);

@@ -3,8 +3,7 @@ import 'package:aoc/args.dart';
 
 void main(List<String> arguments) {
   final puzzlesToRun = parseArgs(arguments);
-  print('puzzles to run: $puzzlesToRun');
-  if (puzzlesToRun == null) return;
+  if (puzzlesToRun.isEmpty) return;
 
   runPuzzles(puzzlesToRun);
 }

@@ -23,3 +23,5 @@ T debug<T>(T a) {
   print('debug: $a');
   return a;
 }
+
+bool isNotNull<T>(T a) => a != null;
